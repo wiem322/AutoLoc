@@ -8,12 +8,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import tn.esprit.autoloc.domain.Agence;
 import tn.esprit.autoloc.domain.CategorieVehicule;
 import tn.esprit.autoloc.domain.StatutVehicule;
 import tn.esprit.autoloc.domain.Vehicule;
 import tn.esprit.autoloc.repository.IAgenceRepository;
+import tn.esprit.autoloc.service.IAgenceService;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,6 +30,26 @@ class AgenceTests {
 
     @Autowired
     private IAgenceRepository fullAgenceRepository;       // nouveau
+
+    // Étape 12 : on injecte l'INTERFACE, pas l'implémentation
+    @Autowired
+    private IAgenceService agenceService;
+
+    // ===================== SERVICE =====================
+
+    // Étape 13 : test de la méthode create du service
+    @Test
+    void createAgence() {
+        Agence a = new Agence();
+        a.setNom("Agence service " + Math.abs((int) System.currentTimeMillis()));
+        a.setAdresse("5 Avenue Habib Bourguiba");
+        a.setVille("Sfax");
+        a.setTelephone("74000000");
+
+        Agence saved = agenceService.create(a);
+
+        assertNotNull(saved.getIdAgence());
+    }
 
     // ===================== AJOUT =====================
 
@@ -145,5 +168,7 @@ class AgenceTests {
     }
 }
 
+// Étape 11 : annotation Bean la plus appropriée pour un dépôt
+@Repository
 interface AgenceRepositoryMock extends CrudRepository<Agence, Long> {
 }
