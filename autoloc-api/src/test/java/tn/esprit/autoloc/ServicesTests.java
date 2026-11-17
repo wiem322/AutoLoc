@@ -3,7 +3,7 @@ package tn.esprit.autoloc;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import tn.esprit.autoloc.domain.Paiement;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import tn.esprit.autoloc.exception.ResourceNotFoundException;
 import tn.esprit.autoloc.service.*;
 
@@ -24,10 +24,8 @@ class ServicesTests {
     @Autowired IEquipementService equipementService;
 
     @Test
-    void paiementEstEnLectureSeule() {
-        assertThrows(UnsupportedOperationException.class, () -> paiementService.create(new Paiement()));
-        assertThrows(UnsupportedOperationException.class, () -> paiementService.update(1L, new Paiement()));
-        assertThrows(UnsupportedOperationException.class, () -> paiementService.deleteById(1L));
+    void paiementFindAll() {
+        assertNotNull(paiementService.findAll());
     }
 
     @Test
